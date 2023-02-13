@@ -3,7 +3,7 @@ const ctx = canvas.getContext("2d");
 
 // Character image
 const characterImg = new Image();
-characterImg.src = "block.png";
+characterImg.src = "character.png";
 
 // Character properties
 const character = {
@@ -16,7 +16,7 @@ const character = {
 
 // Block image
 const blockImg = new Image();
-blockImg.src = "character.png";
+blockImg.src = "block.png";
 
 // Block properties
 const block = {
@@ -64,6 +64,7 @@ function draw() {
     block.x -= block.speed;
     if (block.x + block.width < 0) {
         block.x = canvas.width;
+        block.y = Math.floor(Math.random() * (canvas.height - block.height));
     }
 
     // Check collision
