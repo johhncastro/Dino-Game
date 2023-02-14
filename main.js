@@ -27,12 +27,17 @@ const block = {
     speed: 5
 };
 
+// Score properties
+let score = 0;
+const scoreIncrement = 50;
+const scoreInterval = setInterval(() => {
+    score += scoreIncrement;
+}, 1000);
+
 // Jump function
 function jump() {
     character.jump = true;
-    setTimeout(() => {
-        character.jump = false;
-    }, 500);
+    character.jumpCounter = 0;
 }
 
 // Check collision function
@@ -48,7 +53,8 @@ function checkCollision(char, obj) {
     let objBottom = obj.y + obj.height;
 
     if (charRight > objLeft && charLeft < objRight && charBottom > objTop && charTop < objBottom) {
-        alert("Game Over!");
+        clearInterval(scoreInterval);
+        alert(`Game Over! Final Score: ${score}`);
         document.location.reload();
     }
 }
@@ -67,6 +73,11 @@ function draw() {
         block.y = Math.floor(Math.random() * (canvas.height - block.height));
     }
 
+    // Increment score
+    ctx.font = "24px Arial";
+    ctx.fillStyle = "#000";
+    ctx.fillText(`Score: ${score}`, 10, 50);
+
     // Check collision
     checkCollision(character, block);
 
@@ -75,9 +86,14 @@ function draw() {
 
     // Jump
     if (character.jump) {
-        character.y -= 20;
+        character.y -= 10;
+        character.jumpCounter++;
+
+        if (character.jumpCounter === 30) {
+            character.jump = false;
+        }
     } else {
-        character.y += 20;
+        character.y += 10;
     }
 
     // Keep character within canvas
