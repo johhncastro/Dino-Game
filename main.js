@@ -1,3 +1,10 @@
+//todo: make a start btn and retry btn
+// fix collision issue.
+// create a database design for users passwords and high-scores
+// style page
+// deploy :D
+
+
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
@@ -117,51 +124,3 @@ document.addEventListener("keydown", event => {
 // Start game
 draw();
 
-
-
-// TODO: most of the below code is already reused this is kept for baseline functionality! :D
-
-// // Character properties "aka blue square"
-// const character = {
-//     x: 50,
-//     y: canvas.height - 150,
-//     width: 100,
-//     height: 100,
-//     color: "blue",
-//     jump: false
-// };
-//
-// // Jump function
-// function jump() {
-//     character.jump = true;
-//     setTimeout(() => {
-//         character.jump = false;
-//     }, 500);
-// }
-//
-// // Draw function
-// function draw() {
-//     ctx.clearRect(0, 0, canvas.width, canvas.height);
-//     ctx.fillStyle = character.color;
-//     ctx.fillRect(character.x, character.y, character.width, character.height);
-//
-//     // Move character up and down when jumping
-//     if (character.jump) {
-//         character.y -= 20;
-//     } else {
-//         character.y += 20;
-//     }
-//
-//     // Keep character within canvas bounds
-//     if (character.y > canvas.height - character.height) {
-//         character.y = canvas.height - character.height;
-//     } else if (character.y < 0) {
-//         character.y = 0;
-//     }
-//
-//     requestAnimationFrame(draw);
-// }
-//
-//
-// canvas.addEventListener("click", jump);
-// draw();
