@@ -8,6 +8,15 @@
 const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
+const startButton = document.getElementById("startButton");
+
+startButton.addEventListener("click", function() {
+    gameStarted = true;
+    startButton.parentNode.removeChild(startButton);
+});
+
+
+
 // Character image
 const characterImg = new Image();
 characterImg.src = "character.png";
@@ -47,7 +56,6 @@ function jump() {
     character.jumpCounter = 0;
 }
 
-// Check collision function
 function checkCollision(char, obj) {
     let charLeft = char.x;
     let charRight = char.x + char.width;
@@ -61,10 +69,22 @@ function checkCollision(char, obj) {
 
     if (charRight > objLeft && charLeft < objRight && charBottom > objTop && charTop < objBottom) {
         clearInterval(scoreInterval);
-        alert(`Game Over! Final Score: ${score}`);
-        document.location.reload();
+        const finalScore = score;
+        const retryButton = document.createElement("button");
+        retryButton.innerText = "Retry";
+        retryButton.addEventListener("click", function() {
+            document.location.reload();
+        });
+        const scoreText = document.createElement("p");
+        scoreText.innerText = `Final Score: ${finalScore}`;
+        document.body.appendChild(scoreText);
+        document.body.appendChild(retryButton);
+        gameStarted = false;
     }
 }
+
+
+let gameStarted = false;
 
 // Draw function
 function draw() {
@@ -111,6 +131,10 @@ function draw() {
         character.y = 0;
     }
 
+    if (gameStarted) {
+        // existing game code
+    }
+
     requestAnimationFrame(draw);
 }
 
@@ -123,4 +147,3 @@ document.addEventListener("keydown", event => {
 
 // Start game
 draw();
-
