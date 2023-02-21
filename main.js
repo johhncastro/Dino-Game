@@ -15,10 +15,40 @@ blockImg.src = "block.png";
 
 const startButton = document.getElementById("startButton");
 
+
+const background1Img = new Image();
+background1Img.src = "layers/parallax-mountain-bg.png";
+const background2Img = new Image();
+background2Img.src = "layers/parallax-mountain-foreground-trees.png";
+const background3Img = new Image();
+background3Img.src = "layers/parallax-mountain-far.png";
+const background4Img = new Image();
+background4Img.src = "layers/parallax-mountain-mountains.png";
+const background5Img = new Image();
+background5Img.src = "layers/parallax-mountain-trees.png";
+
+const backgrounds = [
+    { img: background1Img, speed: 1, x: 0 },
+    { img: background2Img, speed: 2, x: 0 },
+    { img: background3Img, speed: 3, x: 0 },
+    { img: background4Img, speed: 4, x: 0 },
+    { img: background5Img, speed: 5, x: 0 }
+];
+
+function drawBackgrounds() {
+    for (let i = 0; i < backgrounds.length; i++) {
+        let bg = backgrounds[i];
+        ctx.drawImage(bg.img, bg.x, 0, canvas.width, canvas.height);
+        bg.x -= character.speed * bg.speed;
+        if (bg.x < -canvas.width) {
+            bg.x += canvas.width;
+        }
+    }
+}
+
 const scoreIncrement = 50;
 let score = 0;
 let scoreInterval;
-
 
 const character = {
     x: 50,
@@ -60,27 +90,22 @@ function checkCollision(char, obj) {
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+    // Draw backgrounds
+    drawBackgrounds();
+
     // Draw block
     ctx.drawImage(blockImg, block.x, block.y, block.width, block.height);
-
-    // Move block
-    block.x -= block.speed;
-    if (block.x + block.width < 0) {
-        block.x = canvas.width;
-        block.y = Math.floor(Math.random() * (canvas.height - block.height));
-        score += scoreIncrement;
-    }
 
     // Increment score
     ctx.font = "24px Arial";
     ctx.fillStyle = "#000";
     ctx.fillText(`Score: ${score}`, 10, 50);
 
-    // Check collision
-    checkCollision(character, block);
-
     // Draw character
     ctx.drawImage(characterImg, character.x, character.y, character.width, character.height);
+
+    // Check collision
+    checkCollision(character, block);
 
     // Jump
     if (character.jump) {
@@ -102,8 +127,17 @@ function draw() {
         character.y = 0;
     }
 
+    // Move block
+    block.x -= block.speed;
+    if (block.x + block.width < 0) {
+        block.x = canvas.width;
+        block.y = Math.floor(Math.random() * (canvas.height - block.height));
+        score += scoreIncrement;
+    }
+
     requestAnimationFrame(draw);
 }
+
 
 function startGame() {
     score = 0;
@@ -129,6 +163,9 @@ document.addEventListener("keydown", event => {
 
 // Listen for start button click
 startButton.addEventListener("click", startGame);
+
+
+
 
 
 
