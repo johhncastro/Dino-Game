@@ -14,7 +14,6 @@ const blockImg = new Image();
 blockImg.src = "block.png";
 
 const startButton = document.getElementById("startButton");
-const restartButton = document.getElementById("restartButton");
 
 const scoreIncrement = 50;
 let score = 0;
@@ -111,7 +110,7 @@ function startGame() {
     scoreInterval = setInterval(() => {
         score += scoreIncrement;
     }, 1000);
-    startButton.style.display = "none";
+    startButton.parentNode.removeChild(startButton); // remove startButton from DOM
     draw();
 }
 
@@ -131,8 +130,5 @@ document.addEventListener("keydown", event => {
 // Listen for start button click
 startButton.addEventListener("click", startGame);
 
-// Listen for restart button click
-restartButton.addEventListener("click", () => {
-    document.location.reload();
-});
+
 
