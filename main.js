@@ -15,40 +15,11 @@ blockImg.src = "block.png";
 
 const startButton = document.getElementById("startButton");
 
-
-const background1Img = new Image();
-background1Img.src = "layers/parallax-mountain-bg.png";
-const background2Img = new Image();
-background2Img.src = "layers/parallax-mountain-foreground-trees.png";
-const background3Img = new Image();
-background3Img.src = "layers/parallax-mountain-far.png";
-const background4Img = new Image();
-background4Img.src = "layers/parallax-mountain-mountains.png";
-const background5Img = new Image();
-background5Img.src = "layers/parallax-mountain-trees.png";
-
-const backgrounds = [
-    { img: background1Img, speed: 1, x: 0 },
-    { img: background2Img, speed: 2, x: 0 },
-    { img: background3Img, speed: 3, x: 0 },
-    { img: background4Img, speed: 4, x: 0 },
-    { img: background5Img, speed: 5, x: 0 }
-];
-
-function drawBackgrounds() {
-    for (let i = 0; i < backgrounds.length; i++) {
-        let bg = backgrounds[i];
-        ctx.drawImage(bg.img, bg.x, 0, canvas.width, canvas.height);
-        bg.x -= character.speed * bg.speed;
-        if (bg.x < -canvas.width) {
-            bg.x += canvas.width;
-        }
-    }
-}
-
 const scoreIncrement = 50;
 let score = 0;
 let scoreInterval;
+
+let paused = false;
 
 const character = {
     x: 50,
@@ -88,10 +59,9 @@ function checkCollision(char, obj) {
 }
 
 function draw() {
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    if (paused) return; // Pause the game if paused is true
 
-    // Draw backgrounds
-    drawBackgrounds();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw block
     ctx.drawImage(blockImg, block.x, block.y, block.width, block.height);
@@ -145,14 +115,33 @@ function startGame() {
         score += scoreIncrement;
     }, 1000);
     startButton.parentNode.removeChild(startButton); // remove startButton from DOM
+    paused = false; // Start the game loop
+    draw();
+}
+
+function pauseGame() {
+    paused = true; // Pause the game loop
+}
+
+function resumeGame() {
+    paused = false; // Resume the game loop
     draw();
 }
 
 function endGame() {
     clearInterval(scoreInterval);
-    alert(`Game Over! Final Score: ${score}`);
-    document.location.reload();
+    pauseGame(); // Pause the game loop
+    const scoreDisplay = document.createElement("div");
+    scoreDisplay.innerText = `Final Score: ${score}`;
+    scoreDisplay.style.fontSize = "24px";
+    scoreDisplay.style.textAlign = "center";
+    scoreDisplay.style.marginTop = "20px";
+    document.body.appendChild(scoreDisplay);
 }
+
+
+// Listen for start button click
+startButton.addEventListener("click", startGame);
 
 // Listen for jump
 document.addEventListener("keydown", event => {
@@ -161,11 +150,50 @@ document.addEventListener("keydown", event => {
     }
 });
 
-// Listen for start button click
-startButton.addEventListener("click", startGame);
+// Listen for pause/resume
+document.addEventListener("keydown", event => {
+    if (event.code === "KeyP") {
+        if (!paused) {
+            pauseGame();
+        } else {
+            resumeGame();
+        }
+    }
+});
 
 
 
 
 
 
+
+
+// const background1Img = new Image();
+// background1Img.src = "layers/parallax-mountain-bg.png";
+// const background2Img = new Image();
+// background2Img.src = "layers/parallax-mountain-foreground-trees.png";
+// const background3Img = new Image();
+// background3Img.src = "layers/parallax-mountain-far.png";
+// const background4Img = new Image();
+// background4Img.src = "layers/parallax-mountain-mountains.png";
+// const background5Img = new Image();
+// background5Img.src = "layers/parallax-mountain-trees.png";
+//
+// const backgrounds = [
+//     { img: background1Img, speed: 1, x: 0 },
+//     { img: background2Img, speed: 2, x: 0 },
+//     { img: background3Img, speed: 3, x: 0 },
+//     { img: background4Img, speed: 4, x: 0 },
+//     { img: background5Img, speed: 5, x: 0 }
+// ];
+//
+// function drawBackgrounds() {
+//     for (let i = 0; i < backgrounds.length; i++) {
+//         let bg = backgrounds[i];
+//         ctx.drawImage(bg.img, bg.x, 0, canvas.width, canvas.height);
+//         bg.x -= character.speed * bg.speed;
+//         if (bg.x < -canvas.width) {
+//             bg.x += canvas.width;
+//         }
+//     }
+// }
