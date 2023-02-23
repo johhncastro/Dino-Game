@@ -101,18 +101,6 @@ function draw() {
         character.y = 0;
     }
 
-    // Generate new blocks
-    const BLOCK_INTERVAL = 0.5; // Maximum interval between blocks in seconds
-    const MAX_BLOCKS_PER_INTERVAL = 2; // Maximum number of blocks per interval
-    let blocksGeneratedThisInterval = 0;
-    if (elapsedTime > BLOCK_INTERVAL && blocksGeneratedThisInterval < MAX_BLOCKS_PER_INTERVAL) {
-        // Generate a new block
-        block.x = canvas.width;
-        block.y = Math.floor(Math.random() * (canvas.height - block.height));
-        blocksGeneratedThisInterval++;
-        elapsedTime -= BLOCK_INTERVAL;
-    }
-
     // Move block
     block.x -= block.speed;
 
