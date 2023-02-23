@@ -18,6 +18,7 @@ const startButton = document.getElementById("startButton");
 const scoreIncrement = 50;
 let score = 0;
 let scoreInterval;
+let elapsedTime = 0;
 
 let paused = false;
 
@@ -61,6 +62,9 @@ function checkCollision(char, obj) {
 function draw() {
     if (paused) return; // Pause the game if paused is true
 
+    const deltaTime = 1 / 60; // Assuming 60 FPS
+    elapsedTime += deltaTime;
+
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Draw block
@@ -97,16 +101,33 @@ function draw() {
         character.y = 0;
     }
 
+    // Generate new blocks
+    const BLOCK_INTERVAL = 0.5; // Maximum interval between blocks in seconds
+    const MAX_BLOCKS_PER_INTERVAL = 2; // Maximum number of blocks per interval
+    let blocksGeneratedThisInterval = 0;
+    if (elapsedTime > BLOCK_INTERVAL && blocksGeneratedThisInterval < MAX_BLOCKS_PER_INTERVAL) {
+        // Generate a new block
+        block.x = canvas.width;
+        block.y = Math.floor(Math.random() * (canvas.height - block.height));
+        blocksGeneratedThisInterval++;
+        elapsedTime -= BLOCK_INTERVAL;
+    }
+
     // Move block
     block.x -= block.speed;
+
     if (block.x + block.width < 0) {
         block.x = canvas.width;
         block.y = Math.floor(Math.random() * (canvas.height - block.height));
         score += scoreIncrement;
+    } else if (block.x > canvas.width) {
+        block.x = -block.width;
     }
 
     requestAnimationFrame(draw);
 }
+
+
 
 
 function startGame() {
@@ -136,8 +157,21 @@ function endGame() {
     scoreDisplay.style.fontSize = "24px";
     scoreDisplay.style.textAlign = "center";
     scoreDisplay.style.marginTop = "20px";
-    document.body.appendChild(scoreDisplay);
+
+    const retryButton = document.createElement("button");
+    retryButton.innerText = "Retry";
+    retryButton.style.marginTop = "20px";
+    retryButton.addEventListener("click", () => {
+        document.location.reload();
+    });
+
+    const container = document.createElement("div");
+    container.appendChild(scoreDisplay);
+    container.appendChild(retryButton);
+    container.classList.add("d-flex","justify-content-around","align-items-center");
+    document.body.appendChild(container);
 }
+
 
 
 // Listen for start button click
