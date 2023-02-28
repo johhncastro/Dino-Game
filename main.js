@@ -39,9 +39,13 @@ const block = {
 };
 
 function jump() {
+    if (character.jump || character.y + character.height < canvas.height) {
+        return;
+    }
     character.jump = true;
     character.jumpCounter = 0;
 }
+
 
 function checkCollision(char, obj) {
     let charLeft = char.x;
