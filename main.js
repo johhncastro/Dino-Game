@@ -45,6 +45,7 @@ function jump() {
     character.jump = true;
     character.jumpCounter = 0;
     character.jumpAmount = 5; // new variable to control the jump height
+    character.jumpFrames = 30; // new variable to control the jump duration
 }
 
 
@@ -90,7 +91,7 @@ function draw() {
     if (character.jump) {
         character.y -= character.jumpAmount; // use the new jumpAmount variable here
         character.jumpCounter++;
-        if (character.jumpCounter === 30) {
+        if (character.jumpCounter === character.jumpFrames) { // use the new jumpFrames variable here
             character.jump = false;
             character.jumpAmount = 10; // reset the jumpAmount variable when the jump is finished
         }
@@ -130,6 +131,7 @@ function startGame() {
     }, 1000);
     startButton.parentNode.removeChild(startButton); // remove startButton from DOM
     paused = false; // Start the game loop
+    canvas.classList.add("active"); // Add the "active" class to the canvas
     draw();
 }
 
@@ -154,6 +156,7 @@ function endGame() {
     const retryButton = document.createElement("button");
     retryButton.innerText = "Retry";
     retryButton.style.marginTop = "20px";
+    retryButton.classList.add("btn-success","btn");
     retryButton.addEventListener("click", () => {
         document.location.reload();
     });

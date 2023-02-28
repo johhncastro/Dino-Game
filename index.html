@@ -4,23 +4,34 @@
     <style>
         canvas {
             border: 1px solid black;
+            background-image: url(desert-parallax-static.png);
+            background-size: cover;
+        }
+
+        canvas.active {
             background-image: url(desert-parallax.gif);
             background-size: cover;
         }
     </style>
     <meta charset="UTF-8">
     <title>Sideman Scroller</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/boosted@5.2.3/dist/css/boosted.min.css" rel="stylesheet" integrity="sha384-zYFw+mxKy6r9zpAc1NoGiYBfQmxfvg7ONEMr81WeU+WLPPaLC9QTrNGFJTBi3EIn" crossorigin="anonymous">
 </head>
 <body>
-<div class="text-center"><h1>Dino Run!</h1></div>
-    <div class="d-flex justify-content-center">
+<div class="bg-supporting-purple title-bar">
+    <div class="container-xxl">
+        <h1 class="display-1">Dino Run</h1>
+    </div>
+</div>
+    <div class="d-flex justify-content-center mt-3 mb-3">
         <canvas id="gameCanvas" width="850" height="400"></canvas>
     </div>
     <div class="d-flex justify-content-center">
-        <button class="d-flex justify-content-center" id="startButton">Start Game</button>
+        <button type="button" class="btn btn-success" id="startButton">Start Game!</button>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<!-- JavaScript Bundle with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/boosted@5.2.3/dist/js/boosted.bundle.min.js" integrity="sha384-MANW37RG4MpFWPMCcNZBnvSobOkBpIGlbBkEzTtD4FbbOzJXbW8TddND1ak2lfsB" crossorigin="anonymous"></script>
     <script src="main.js"></script>
 
 </body>
