@@ -33,8 +33,8 @@ const character = {
 const block = {
     x: canvas.width,
     y: canvas.height - 200,
-    width: 50,
-    height: 50,
+    width: 25,
+    height: 25,
     speed: 5
 };
 
@@ -44,6 +44,7 @@ function jump() {
     }
     character.jump = true;
     character.jumpCounter = 0;
+    character.jumpAmount = 5; // new variable to control the jump height
 }
 
 
@@ -87,11 +88,11 @@ function draw() {
 
     // Jump
     if (character.jump) {
-        character.y -= 10;
+        character.y -= character.jumpAmount; // use the new jumpAmount variable here
         character.jumpCounter++;
-
         if (character.jumpCounter === 30) {
             character.jump = false;
+            character.jumpAmount = 10; // reset the jumpAmount variable when the jump is finished
         }
     } else {
         character.y += 10;
