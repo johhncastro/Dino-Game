@@ -17,6 +17,7 @@ const startButton = document.getElementById("startButton");
 
 const scoreIncrement = 50;
 let score = 0;
+let highScore = 0; // new variable to store the high score
 let scoreInterval;
 let elapsedTime = 0;
 
@@ -81,6 +82,9 @@ function draw() {
     ctx.fillStyle = "#000";
     ctx.fillText(`Score: ${score}`, 10, 50);
 
+    // Draw high score
+    ctx.fillText(`High Score: ${highScore}`, canvas.width - 200, 50); // new line to draw the high score
+
     // Draw character
     ctx.drawImage(characterImg, character.x, character.y, character.width, character.height);
 
@@ -122,8 +126,6 @@ function draw() {
 }
 
 
-
-
 function startGame() {
     score = 0;
     scoreInterval = setInterval(() => {
@@ -132,8 +134,10 @@ function startGame() {
     startButton.parentNode.removeChild(startButton); // remove startButton from DOM
     paused = false; // Start the game loop
     canvas.classList.add("active"); // Add the "active" class to the canvas
+    document.getElementById("highScoreContainer").innerText = `High Score: ${highScore}`; // new line to display the high score
     draw();
 }
+
 
 function pauseGame() {
     paused = true; // Pause the game loop
@@ -158,15 +162,28 @@ function endGame() {
     retryButton.style.marginTop = "20px";
     retryButton.classList.add("btn-success","btn");
     retryButton.addEventListener("click", () => {
-        document.location.reload();
+        score = 0;
+        paused = false;
+        block.x = canvas.width;
+        block.y = canvas.height - 200;
+        document.getElementById("gameOverContainer").remove();
+        document.getElementById("highScoreContainer").innerText = `High Score: ${highScore}`;
+        draw();
     });
 
     const container = document.createElement("div");
     container.appendChild(scoreDisplay);
     container.appendChild(retryButton);
     container.classList.add("d-flex","justify-content-around","align-items-center");
+    container.id = "gameOverContainer";
     document.body.appendChild(container);
+
+    // Update high score
+    if (score > highScore) {
+        highScore = score;
+    }
 }
+
 
 
 
