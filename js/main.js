@@ -8,10 +8,10 @@ const canvas = document.getElementById("gameCanvas");
 const ctx = canvas.getContext("2d");
 
 const characterImg = new Image();
-characterImg.src = "character.png";
+characterImg.src = "../layers/character.png";
 
 const blockImg = new Image();
-blockImg.src = "block.png";
+blockImg.src = "../layers/block.png";
 
 const startButton = document.getElementById("startButton");
 
