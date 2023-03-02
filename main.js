@@ -74,8 +74,10 @@ function draw() {
 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    // Draw block
-    ctx.drawImage(blockImg, block.x, block.y, block.width, block.height);
+    // Draw block with border
+    ctx.strokeStyle = "black"; // set the border color
+    ctx.strokeRect(block.x, block.y, block.width, block.height); // draw the border
+    ctx.drawImage(blockImg, block.x + 1, block.y + 1, block.width - 2, block.height - 2); // draw the block
 
     // Increment score
     ctx.font = "24px Arial";
@@ -83,21 +85,23 @@ function draw() {
     ctx.fillText(`Score: ${score}`, 10, 50);
 
     // Draw high score
-    ctx.fillText(`High Score: ${highScore}`, canvas.width - 200, 50); // new line to draw the high score
+    ctx.fillText(`High Score: ${highScore}`, canvas.width - 200, 50);
 
-    // Draw character
-    ctx.drawImage(characterImg, character.x, character.y, character.width, character.height);
+    // Draw character with border
+    ctx.strokeStyle = "black"; // set the border color
+    ctx.strokeRect(character.x, character.y, character.width, character.height); // draw the border
+    ctx.drawImage(characterImg, character.x + 1, character.y + 1, character.width - 2, character.height - 2); // draw the character
 
     // Check collision
     checkCollision(character, block);
 
     // Jump
     if (character.jump) {
-        character.y -= character.jumpAmount; // use the new jumpAmount variable here
+        character.y -= character.jumpAmount;
         character.jumpCounter++;
-        if (character.jumpCounter === character.jumpFrames) { // use the new jumpFrames variable here
+        if (character.jumpCounter === character.jumpFrames) {
             character.jump = false;
-            character.jumpAmount = 10; // reset the jumpAmount variable when the jump is finished
+            character.jumpAmount = 10;
         }
     } else {
         character.y += 10;
@@ -128,13 +132,13 @@ function draw() {
 
 function startGame() {
     score = 0;
+    highScore = 0; // reset the high score when starting a new game
     scoreInterval = setInterval(() => {
         score += scoreIncrement;
     }, 1000);
     startButton.parentNode.removeChild(startButton); // remove startButton from DOM
     paused = false; // Start the game loop
     canvas.classList.add("active"); // Add the "active" class to the canvas
-    document.getElementById("highScoreContainer").innerText = `High Score: ${highScore}`; // new line to display the high score
     draw();
 }
 
